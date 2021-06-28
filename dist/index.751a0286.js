@@ -22111,7 +22111,7 @@ class MovieCard extends _reactDefault.default.Component {
     render() {
         const { movieData , onMovieClick  } = this.props;
         return(/*#__PURE__*/ _reactDefault.default.createElement("div", {
-            class: "movie-card",
+            className: "movie-card",
             onClick: ()=>{
                 onMovieClick(movieData);
             },
