@@ -21898,7 +21898,7 @@ class MainView extends _reactDefault.default.Component {
         });
     }
     render() {
-        const { movies , selectedMovie  } = this.state.user;
+        const { movies , selectedMovie  } = this.state;
         if (!user) return(/*#__PURE__*/ _reactDefault.default.createElement(_loginView.LoginView, {
             onLoggedIn: (user)=>this.onLoggedIn(user)
             ,

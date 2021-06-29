@@ -47,7 +47,7 @@ export class MainView extends React.Component {
     }
 
     render() {
-        const {movies, selectedMovie } = this.state.user;
+        const {movies, selectedMovie } = this.state;
 
         if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)}/>;
 
