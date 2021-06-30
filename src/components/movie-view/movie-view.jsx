@@ -1,28 +1,26 @@
 import React from "react";
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 export class MovieView extends React.Component {
   render() {
     const { movie, onBackClick } = this.props;
     return (
-      <div className="movie-view">
-        <div className="movie-poster">
-          <img src={movie.imageUrl} />
+        <div className="main-view">
+          {selectedMovie
+            ? (
+              <Row className="justify-content-md-center">
+                <Col md={8}>
+                  <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+                </Col>
+              </Row>
+            )
+            : movies.map(movie => (
+              <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+            ))
+          }
         </div>
-        <div className="movie-title">
-          <span className="value">{movie.Title}</span>
-        </div>
-        <div className="movie-description">
-          <span className="value">{movie.description}</span>
-        </div>
-        <button
-          onClick={() => {
-            onBackClick(null);
-          }}
-        >
-          Back to list
-        </button>
-      </div>
-    );
+      );
   }
 }
 

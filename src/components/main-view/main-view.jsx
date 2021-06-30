@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Row from 'react-bootstrap/Row';
 
 import {LoginView} from '../login-view/login-view';
 import {RegistrarionView} from '../registration-view/registration-view';
@@ -53,18 +54,20 @@ export class MainView extends React.Component {
 
         if (movies.length === 0) return <div className="main-view" />;
 
-        return (
-            // <React.Fragment> or <>
-            <div className="main-view">
-                {selectedMovie
-                ? <MovieView movieData={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
-                : movies.map(movie => (
-                    <MovieCard key={movie._id} movieData={movie} onMovieClick={(movie) => { this.setSelectedMovie(movie) }}/>
-        ))
-      }
-    </div>
-            // </React.Fragment> or </>
-        );
+       return (
+  <div className="main-view">
+    {selectedMovie
+      ? (
+        <Row>
+          <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+        </Row>
+      )
+      : movies.map(movie => (
+        <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+      ))
+    }
+  </div>
+);
     }
 }
 export default MainView;
