@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 // React-bootstrap component
 import { Container, Row, Col, Button, Spinner} from 'react-bootstrap'
 
-//Custome Component 
-import { MovieCard } from '../movieCard/movieCard'
+import "./genre-view.scss"
 
 const  GenreView = ({ movies, onBackClick }) => {
   return (
