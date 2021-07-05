@@ -3,6 +3,32 @@
   max-width: 200px;
   align-content: center;
 }
+.movie-view {
+  font-size: 1.1em;
+}
+
+.cent {
+  text-align: center;
+}
+
+.poster {
+  width: 250px;
+}
+
+.link {
+  color: #17A2B8;
+  text-decoration: none;
+  outline: none;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+.link:hover {
+  color: #ad631d;
+  text-decoration: none;
+  outline: none;
+  margin-left: 8px;
+}
 .my-flix {
   color: steelblue;
 }
