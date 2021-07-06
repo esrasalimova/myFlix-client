@@ -50,6 +50,22 @@ export class MainView extends React.Component {
 
   /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
 
+  getUsers(token) {
+    axios.get('https://calm-chamber-83197.herokuapp.com/users', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        // Assign the result to the state
+        this.setState({
+          users: response.data
+        });
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
@@ -59,6 +75,22 @@ export class MainView extends React.Component {
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
+    this.getUsers(authData.token);
+  }
+
+  onLoggedOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.setState({
+      user: null
+    });
+  }
+
+  onRegister(register) {
+    console.log(register);
+    this.setState({
+      register,
+    });
   }
 
   render() {
