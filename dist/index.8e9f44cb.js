@@ -28832,7 +28832,7 @@ class MovieView extends _reactDefault.default.Component {
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement("img", {
-            src: movie.imagePath,
+            src: movie.ImagePath,
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
                 lineNumber: 39
@@ -28915,7 +28915,7 @@ class MovieView extends _reactDefault.default.Component {
                 lineNumber: 53
             },
             __self: this
-        }, movie.Genre.Name)))), /*#__PURE__*/ _reactDefault.default.createElement("div", {
+        }, "Genre")))), /*#__PURE__*/ _reactDefault.default.createElement("div", {
             className: "movie-director",
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
@@ -28950,7 +28950,7 @@ class MovieView extends _reactDefault.default.Component {
                 lineNumber: 61
             },
             __self: this
-        }, movie.Director.Name)))), /*#__PURE__*/ _reactDefault.default.createElement("button", {
+        }, "Director")))), /*#__PURE__*/ _reactDefault.default.createElement("button", {
             onClick: ()=>{
                 onBackClick(null);
             },

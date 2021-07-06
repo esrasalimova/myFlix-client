@@ -36,7 +36,7 @@ export class MovieView extends React.Component {
               <Button variant="warning" onClick={() => {this.addFavorite(movie);}}>Favorite</Button>
           </div>
         <div className="movie-poster">
-          <img src={movie.imagePath} />
+          <img src={movie.ImagePath} />
         </div>
         <div className="movie-title">
           <span className="value">{movie.Title}</span>
@@ -50,7 +50,7 @@ export class MovieView extends React.Component {
             <span className="label">Genre</span>
             <span className="link">
                 <Link to={'/genres/${movie.Genre.Name}'}>
-                <Button variant="link">{movie.Genre.Name}</Button>
+                <Button variant="link">Genre</Button>
             </Link>
             </span>
         </div>
@@ -58,7 +58,7 @@ export class MovieView extends React.Component {
             <span className="label">Directed by: </span>
             <span className="link">
                 <Link to={'/directors/${movie.Director.Name}'}>
-                <Button variant="link">{movie.Director.Name}</Button>
+                <Button variant="link">Director</Button>
             </Link>
          </span>
         </div>
