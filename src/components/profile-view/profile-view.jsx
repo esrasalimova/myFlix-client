@@ -1,166 +1,186 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { setUser } from '../../actions/actions';
+import { updateUser } from '../../actions/actions';
 
-import './profile-view.scss';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Form from 'react-bootstrap/Form';
+
+
 
 export class ProfileView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      validated: null
+    };
+    console.log('Profile View Loaded');
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.deRegister = this.deRegister.bind(this);
+  }
+
+  handleUpdate(e, newUsername, newPassword, newEmail, newBirthday) {
+    this.setState({
+      validated: null,
+    });
+
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setState({
+        validated: true,
+      });
+      return;
+    }
+    e.preventDefault();
+
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    const url = 'https://calm-chamber-83197.herokuapp.com/users/';
+
+    axios({
+      method: 'put',
+      url: url + user,
+      headers: { Authorization: `Bearer ${token}` },
+      data: {
+        Username: newUsername ? newUsername : this.state.Username,
+        Password: newPassword ? newPassword : this.state.Password,
+        Email: newEmail ? newEmail : this.state.Email,
+        Birthday: newBirthday ? newBirthday : this.state.Birthday,
+      },
+    })
+      .then(response => {
+        this.setState({
+          Username: response.data.Username,
+          Password: response.data.Password,
+          Email: response.data.Email,
+          Birthday: response.data.Birthday,
+        });
+        alert('Changes have been saved!');
+        localStorage.setItem('user', this.state.Username);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  setUsername(input) {
+    this.Username = input;
+  }
+
+  setPassword(input) {
+    this.Password = input;
+  }
+
+  setEmail(input) {
+    this.Email = input;
+  }
+
+  setBirthday(input) {
+    this.Birthday = input;
+  }
+
+  deRegister(e) {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    const url = 'https://calm-chamber-83197.herokuapp.com/users/';
+
+    axios.delete(url + user, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then( result => {
+        localStorage.clear();
+        setUser({
+          user: null,
+          token: null
+        });
+        window.open('/', '_self');
+        alert('Your account has been deleted!');
+      })
+      .catch(() => {
+        console.log('error deleting the user');
+      });
+  }
 
   render() {
-    let { user, token, history, userData, onNewUser, onSignOut} = this.props;
-
-    function updateInfo(token) {
-      const userInput = document.getElementById('username');
-      const passInput = document.getElementById('password');
-      const passVerInput = document.getElementById('passwordVer');
-      const emailInput = document.getElementById('email');
-      const dateInput = document.getElementById('DOB');
-
-      if (userInput.value.length > 12) {
-        const userErr = document.getElementById('user');
-        return userErr.innerText = "Username can only be 5 characters";
-      }
-
-      const nameChoice = userInput.value || userData.Username;
-      let passChoice = null;
-      if (passInput.value == "") {
-        passChoice = "";
-      } else {
-        passChoice = passInput.value;
-      }
-      const emailChoice = emailInput.value || userData.Email;
-      const dateChoice = dateInput.value || userData.DOB;
-
-      if (passInput.value === passVerInput.value) {
-        axios.put(`https://calm-chamber-83197.herokuapp.com/users/${user}`, 
-        { 
-          Username: nameChoice, Password: passChoice, Email: emailChoice, DOB: dateChoice 
-        },
-        { headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}}
-        )
-        .then(response => {
-          console.log('Success with updating account information');
-          let userData2 = response.data;
-          onNewUser(userData2);
-          if (userInput.value != "") {
-            window.location = `/users/${userData2.Username}`;
-          }
-          if (passChoice != "") {
-            window.location = `/users/${userData2.Username}`;
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      } else {
-        const passErr = document.getElementById('pass');
-        const passErrVer = document.getElementById('passVer');
-        passErr.innerText = "The passwords must match";
-        passErrVer.innerText = "The passwords must match";
-      }
-    }
-
-    function deleteAcc(token) {
-      console.log('Not deleted yet');
-      axios.delete(`https://calm-chamber-83197.herokuapp.com/users/${user}`, 
-      { headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}})
-      .then(response => {
-        console.log(response);
-        console.log(`${user} has been deleted`);
-      })
-      .catch(e => {
-        console.log('There is an error');
-        console.log(e);
-      })
-    }
+    const { validated } = this.state;
+    const { onBackClick } = this.props;
+    // const validated = null
+    // const username = localStorage.getItem('user');
     
 
-    function Date() {
-      const formDate = userData.DOB;
+  return (
+    <div>
+      <Card className="my-3">
+        <Card.Body>
+          <Form noValidate validated={validated} className='update-form' onSubmit={(e) => this.handleUpdate(e, this.Username, this.Password, this.Email, this.Birthday)}>
+            <Row className="justify-content-center">
+              <Col xs={10} md={8} lg={6}>
+                <h5>Update your Profile</h5>
+                <Form.Group controlId="BasicUsername">
+                  <Form.Label>Username:</Form.Label>
+                  <Form.Control type="text"
+                  placeholder="Enter current or new Username"
+                  autoComplete="username"
+                  onChange={(e) => this.setUsername(e.target.value )} 
+                  pattern='[a-zA-Z0-9]{5,}'
+                  minLength="5" />
+                  <Form.Control.Feedback type='invalid'>Enter a Username with at least 5 alphanumeric characters</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="BasicPassword">
+                  <Form.Label>Password:*</Form.Label>
+                  <Form.Control type="password"
+                  placeholder="Enter current or new Password"
+                  autoComplete="password"
+                  onChange={(e) => this.setPassword(e.target.value )} minLength="5" required />
+                  <Form.Control.Feedback type='invalid'>Enter a valid password with at least 5 characters</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="BasicEmail">
+                  <Form.Label>Email:</Form.Label>
+                  <Form.Control type="email"
+                  placeholder="Change email" 
+                  autoComplete="email"
+                  onChange={(e) => this.setEmail(e.target.value )} />
+                  <Form.Control.Feedback type='invalid'>Please enter a valid email address.</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="BasicBirthday">
+                  <Form.Label>Birthday:</Form.Label>
+                  <Form.Control type="date"
+                  onChange={(e) => this.setBirthday(e.target.value )} />
+                  <Form.Control.Feedback type='invalid'>Please enter a valid date.</Form.Control.Feedback>
+                </Form.Group>
+                <Button variant="secondary" type="submit">Update</Button><hr />
+                <Button variant="secondary" className="my-2" onClick={() => { onBackClick(null); }}>Back</Button>
+                <p className="my-3">Deregister Account: - Cannot be undone!</p>
+                <Button variant="danger"  onClick={(e) => this.deRegister(e)}>Deregister</Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card.Body>
+      </Card>
+    </div>
+  )}
+}
 
-      return formDate.slice(0, 10);
-    }
+PropTypes.checkPropTypes(ProfileView.propTypes);
+ProfileView.propTypes = {
+  user: PropTypes.object.isRequired,
+  onBackClick: PropTypes.func.isRequired
+}
 
-    if (userData.Username === 'testuser') {
-      return (
-        <>
-        <div className="centerProfile">
-          <h1 className="title my-4">Hello {`${userData.Username}`},</h1>
-          <h2 className="title-2 my-4">Current Information</h2>
-          <div className="align-text-left">
-            <div className=" my-2"><strong>Username:</strong> {`${userData.Username}`}</div>
-            <div className=" my-2"><strong>Email:</strong> {`${userData.Email}`}</div>
-            <div className=" my-2"><strong>Date of Birth:</strong> {`${Date()}`}</div>
-          </div>
-            <h2 className="title-2 my-4">Update Information</h2>
-            <div>The testuser account info cannot be updated!</div>
-          </div>
-        </>
-      );
-    }
-    return (
-      <>
-      <div className="centerProfile">
-        <h1 className="title my-4">Hello {`${userData.Username}`},</h1>
-        <h2 className="title-2 my-4">Current Information</h2>
-        <div className="align-text-left">
-          <div className=" my-2"><strong>Username:</strong> {`${userData.Username}`}</div>
-          <div className=" my-2"><strong>Email:</strong> {`${userData.Email}`}</div>
-          <div className=" my-2"><strong>Date of Birth:</strong> {`${Date()}`}</div>
-        </div>
-          <h2 className="title-2 my-4">Update Information</h2>
-          <form noValidate className="form">
-
-            <div className="input-wrap">
-              <label htmlFor="username">Username:</label>
-              <input type="text" id="username" placeholder="New Username"/>
-              <div id="user" className="error"></div>
-            </div>
-
-            <div className="input-wrap">
-              <label htmlFor="password">Password:</label>
-              <input id="password" type="password" placeholder="New Password"/>
-              <div id="pass" className="error"></div>
-            </div>
-
-            <div className="input-wrap">
-              <label htmlFor="password Verification">Verify Password:</label>
-              <input id="passwordVer" type="password" placeholder="Verify Password Change"/>
-              <div id="passVer" className="error"></div>
-            </div>
-
-            <div className="input-wrap">
-              <label htmlFor="email">Email:</label>
-              <input id="email" type="email" placeholder="New Email"/>
-              <div id="email-err" className="error"></div>
-            </div>
-
-            <div className="input-wrap">
-              <label htmlFor="DOB">Date of Birth:</label>
-              <input id="DOB" type="Date"/>
-              <div id="Date" className="error"></div>
-            </div>
-            
-            <div className="middle">
-              <Button className="m-3 bttn" variant="info" type="button" onClick={() =>{updateInfo(token)}}>Update</Button>
-              <Link to={`/`}>
-                <Button className="m-3 bttn" variant="info" type="button">Go Back</Button>
-              </Link>
-              <Button className="m-3 bttn" variant="info" type="button" onClick={ () => { deleteAcc(token); onSignOut(null); history.push('/'); } }>Delete Account</Button>
-            </div>
-          </form>
-        </div>
-      </>
-    );
+let mapStateToProps = state => {
+  return {
+    user: state.user,
+    movies: state.movies
   }
 }
-ProfileView.prototypes = {
-    user: PropTypes.object,
-    token: PropTypes.string,
-    onBackClick: PropTypes.func,
-    onLogOut: PropTypes.func,
-  }
-  
-  export default connect(mapStateToProps)(ProfileView);
+
+export default connect(mapStateToProps, { setUser, updateUser })(ProfileView);

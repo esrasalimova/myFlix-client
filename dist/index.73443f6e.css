@@ -50,26 +50,6 @@
 .director-bio {
   padding-bottom: 20px;
 }
-.GenreView {
-  text-align: center;
-}
-
-.genre-name {
-  font-size: 40px;
-  font-weight: bold;
-}
-
-.label {
-  font-weight: bold;
-}
-
-.genre-name, .genre-description {
-  padding: 5px;
-}
-
-.genre-description {
-  padding-bottom: 20px;
-}
 .my-flix {
   color: steelblue;
 }

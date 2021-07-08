@@ -1,43 +1,60 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import { MovieCard } from '../movie-card/movie-card';
 
 import "./director-view.scss"
 
+
 export class DirectorView extends React.Component {
-  render() {
-    const { directorData, onBackClick } = this.props;
+  constructor (props) {
+    super (props)
+  }
+
+  render () {
+    const { movies, director, onBackClick } = this.props;
 
     return (
-
-      <div className="director-view">
-        <div className="my-2">
-          <span className="label font-weight-bold">Director: </span>
-          <span className="value">{director.Name}</span>
-        </div>
-        <div className="my-2">
-          <span className="label font-weight-bold">Biography: </span>
-          <span className="value">{director.Bio}</span>
-        </div>
-        <div className="my-2">
-          <span className="label font-weight-bold">Born: </span>
-          <span className="value">{director.Born}</span>
-        </div>
-        <div className="my-2">
-          <span className="label font-weight-bold">Death: </span>
-          <span className="value">{director.Died}</span>
-        </div>
-          <Button variant="info" className="my-3" onClick={()=>onBackClick()}>Back</Button>
+      <div key={director.props}>
+        <Card className="director-view m-3">
+          <Card.Body>
+              <Card.Title>
+              <span className="value">{director.Name}</span>
+              </Card.Title>
+            <Card.Text className="director-birthday">
+              <span>Born in: </span>
+              <span className="value">{director.Birth}</span>
+            </Card.Text>
+            <Card.Text className="director-bio">
+              <span>Biography: </span>
+              <span className="value">{director.Bio}</span>
+            </Card.Text>
+            <Button variant="secondary" onClick={() => { onBackClick(null); }}>Back</Button>
+          </Card.Body>
+        </Card>
+          <h4 className="mt-3">Some {director.Name} movies</h4><hr />
+          {movies.map((m) => {
+          if (m.Director.Name === director.Name) {
+            return (
+              <div style={{ width: '15rem', float: 'left' }} className="d-inline-flex align-content-start m-1" key={m._id}>
+                <MovieCard movie={m} />
+              </div>
+            )
+          }
+        })}
       </div>
+      
     );
   }
 }
 
 DirectorView.propTypes = {
-  directorData: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Bio: PropTypes.string.isRequired,
-      Born: PropTypes.string.isRequired,
-      Died: PropTypes.string.isRequired
-  }).isRequired
+  director: PropTypes.shape({
+    Name: PropTypes.string.isRequired,
+    Bio: PropTypes.string.isRequired,
+    Birth: PropTypes.string.isRequired,
+    Death: PropTypes.string,
+  }),
+  onBackClick: PropTypes.func.isRequired
 };
