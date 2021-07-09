@@ -22063,7 +22063,8 @@ class MainView extends _reactDefault.default.Component {
                 return(/*#__PURE__*/ _reactDefault.default.createElement(_colDefault.default, {
                     md: 8
                 }, /*#__PURE__*/ _reactDefault.default.createElement(_directorView.DirectorView, {
-                    director: movies.find((m)=>m.Director.Name === match.params.name
+                    movies: movies,
+                    director: movies.find((m)=>m.Title === match.params.name
                     ).Director,
                     onBackClick: ()=>history.goBack()
                 })));
@@ -22085,7 +22086,8 @@ class MainView extends _reactDefault.default.Component {
                 return(/*#__PURE__*/ _reactDefault.default.createElement(_colDefault.default, {
                     md: 8
                 }, /*#__PURE__*/ _reactDefault.default.createElement(_genreView.GenreView, {
-                    genre: movies.find((m)=>m.Genre.Name === match.params.name
+                    movies: movies,
+                    genre: movies.find((m)=>m.Title == match.params.name
                     ).Genre,
                     onBackClick: ()=>history.goBack()
                 })));
@@ -28635,7 +28637,7 @@ class MovieView extends _reactDefault.default.Component {
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Link, {
-            to: '/genres/${movie.Genre.Name}',
+            to: `/genres/${movie.Title}`,
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
                 lineNumber: 52
@@ -28670,7 +28672,7 @@ class MovieView extends _reactDefault.default.Component {
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Link, {
-            to: '/directors/${movie.Director.Name}',
+            to: `/directors/${movie.Title}`,
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\movie-view\\movie-view.jsx",
                 lineNumber: 60
@@ -28797,51 +28799,51 @@ class GenreView extends _reactDefault.default.Component {
     }
     render() {
         const { movies , genre , onBackClick  } = this.props;
+        console.log(movies);
         return(/*#__PURE__*/ _reactDefault.default.createElement("div", {
-            key: genre.props,
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 17
+                lineNumber: 18
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default, {
             className: "genre-view m-3",
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 18
+                lineNumber: 19
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Body, {
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 19
+                lineNumber: 20
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Title, {
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 20
+                lineNumber: 21
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement("span", {
             className: "value",
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 21
+                lineNumber: 22
             },
             __self: this
         }, genre.Name)), /*#__PURE__*/ _reactDefault.default.createElement(_cardDefault.default.Text, {
             className: "genre-discription",
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 23
+                lineNumber: 24
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement("span", {
             className: "value",
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 24
+                lineNumber: 25
             },
             __self: this
         }, genre.Description)), /*#__PURE__*/ _reactDefault.default.createElement(_buttonDefault.default, {
@@ -28851,20 +28853,20 @@ class GenreView extends _reactDefault.default.Component {
             },
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 26
+                lineNumber: 27
             },
             __self: this
         }, "Back"))), /*#__PURE__*/ _reactDefault.default.createElement("h4", {
             className: "mt-4",
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 29
+                lineNumber: 30
             },
             __self: this
         }, "Some ", genre.Name, " movies"), /*#__PURE__*/ _reactDefault.default.createElement("hr", {
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                lineNumber: 29
+                lineNumber: 30
             },
             __self: this
         }), movies.map((m)=>{
@@ -28876,14 +28878,14 @@ class GenreView extends _reactDefault.default.Component {
                 key: m._id,
                 __source: {
                     fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                    lineNumber: 33
+                    lineNumber: 34
                 },
                 __self: this
             }, /*#__PURE__*/ _reactDefault.default.createElement(_movieCard.MovieCard, {
                 movie: m,
                 __source: {
                     fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\genre-view\\genre-view.jsx",
-                    lineNumber: 34
+                    lineNumber: 35
                 },
                 __self: this
             })));
@@ -29198,7 +29200,6 @@ class DirectorView extends _reactDefault.default.Component {
     render() {
         const { movies , director , onBackClick  } = this.props;
         return(/*#__PURE__*/ _reactDefault.default.createElement("div", {
-            key: director.props,
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\director-view\\director-view.jsx",
                 lineNumber: 19

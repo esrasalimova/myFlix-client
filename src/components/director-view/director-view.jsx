@@ -16,7 +16,7 @@ export class DirectorView extends React.Component {
     const { movies, director, onBackClick } = this.props;
 
     return (
-      <div key={director.props}>
+      <div>
         <Card className="director-view m-3">
           <Card.Body>
               <Card.Title>

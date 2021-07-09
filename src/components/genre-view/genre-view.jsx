@@ -12,9 +12,10 @@ export class GenreView extends React.Component {
 
   render () {
     const { movies, genre, onBackClick } = this.props;
+console.log(movies)
 
     return (
-      <div key={genre.props}>
+      <div>
       <Card className="genre-view m-3">
         <Card.Body>
             <Card.Title>
