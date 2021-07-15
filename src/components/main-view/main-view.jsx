@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import { setMovies, setUser } from '../../actions/actions';
 
-
+import { NavView } from '../nav-view/nav-view';
 import MoviesList from '../movies-list/movies-list';
 
 import { LoginView } from '../login-view/login-view';
@@ -16,9 +16,9 @@ import { MovieView } from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { RegistrationView } from '../registration-view/registration-view';
-import { ProfileView } from '../profile-view/profile-view';
+import  ProfileView  from '../profile-view/profile-view';
 
-
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -62,6 +62,7 @@ class MainView extends React.Component {
   /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
 
   getUsers(token) {
+    const user = localStorage.getItem("user")
     axios.get('https://calm-chamber-83197.herokuapp.com/users', {
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -110,13 +111,24 @@ class MainView extends React.Component {
     
     return (
       <Router>
-        <Row className="main-view justify-content-md-center">
+        <Container className="main-view justify-content-md-center">
           <Route exact path="/" render={() => {
             if (!user) return <Col>
               <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
             </Col>
             if (movies.length === 0) return <div className="main-view" />;
-            return <MoviesList movies={movies}/>
+            return <Container>
+            <Row>
+              <Col className="p-0">
+                <NavView user={user} />
+              </Col>
+            </Row>
+            <Row>
+            
+              {<MoviesList movies={movies}/>}
+             
+            </Row>
+        </Container>
             //movies.map(m => (<Col md={3} key={m._id}><MovieCard movie={m} /></Col>))
           }} />
           <Route path="/register" render={() => {
@@ -147,7 +159,7 @@ class MainView extends React.Component {
           }
           } />
 
-          <Route path="/users/:Username" render={({ match, history }) => {
+          <Route path="/users/:Username" render={({ history }) => {
             if (!user) return
               <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
             if (movies.length === 0) return <div className="main-view" />;
@@ -163,11 +175,7 @@ class MainView extends React.Component {
               <ProfileView user={user}  onBackClick={() => history.goBack()} />
             </Col>
                 </Row>
-                <Row className="d-flex justify-content-center">
-                  <Col md={10}>
-                    <FavoritesView user={user} movies={movies} />
-                  </Col>
-                </Row>
+                
               </Container>
             )
             
@@ -186,7 +194,7 @@ class MainView extends React.Component {
             </Col>
           }
           } />
-        </Row>
+        </Container>
       </Router>
     );
   }

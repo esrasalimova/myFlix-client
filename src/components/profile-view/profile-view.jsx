@@ -4,6 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { setUser } from '../../actions/actions';
 import { updateUser } from '../../actions/actions';
+import { deleteUser } from '../../actions/actions';
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -15,14 +16,65 @@ import Form from 'react-bootstrap/Form';
 
 
 export class ProfileView extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+    (this.Username = null), (this.Password = null), (this.Email = null), (this.Birthday = null);
     this.state = {
+      Username: null,
+      Password: null,
+      Email: null,
+      Birthday: null,
+      FavoriteMovies: [],
       validated: null
     };
-    console.log('Profile View Loaded');
-    this.handleUpdate = this.handleUpdate.bind(this);
-    this.deRegister = this.deRegister.bind(this);
+  }
+
+  componentDidMount() {
+    const accessToken = localStorage.getItem("token");
+    if (accessToken !== null) {
+      this.getUser(accessToken);
+    }
+  }
+
+  getUser(token) {
+    const url = 'https://calm-chamber-83197.herokuapp.com/users/'
+    const user = localStorage.getItem("user")
+
+    axios
+      .get(url + user, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        this.setState({
+          Username: response.data.Username,
+          Password: response.data.Password,
+          Email: response.data.Email,
+          Birthday: response.data.Birthday,
+          FavoriteMovies: response.data.FavoriteMovies,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+
+  removeFavorite(movie) {
+    const token = localStorage.getItem("token");
+    const url = 'https://calm-chamber-83197.herokuapp.com/users/';
+    const user = localStorage.getItem("user");
+    
+    axios.delete(url + user + "/movies/" + movie._id, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        console.log(response);
+        alert("Removed from favorites");
+        this.componentDidMount();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   handleUpdate(e, newUsername, newPassword, newEmail, newBirthday) {
@@ -89,6 +141,7 @@ export class ProfileView extends React.Component {
 
   deRegister(e) {
     e.preventDefault();
+
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
     const url = 'https://calm-chamber-83197.herokuapp.com/users/';
@@ -96,25 +149,26 @@ export class ProfileView extends React.Component {
     axios.delete(url + user, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then( result => {
-        localStorage.clear();
-        setUser({
-          user: null,
-          token: null
-        });
-        window.open('/', '_self');
-        alert('Your account has been deleted!');
+      .then(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.open('/register');
+        alert('Your account has been deleted');
       })
-      .catch(() => {
+      .catch((e) => {
         console.log('error deleting the user');
       });
   }
 
   render() {
-    const { validated } = this.state;
-    const { onBackClick } = this.props;
-    // const validated = null
-    // const username = localStorage.getItem('user');
+    const validated = this.state;
+    const username = localStorage.getItem('user');
+    const { movies } = this.props;
+    // const user = this.state;  
+    const favoriteMovieList = movies.filter((movie) => {
+      return this.state.FavoriteMovies.includes(movie._id);
+    });
+
     
 
   return (
