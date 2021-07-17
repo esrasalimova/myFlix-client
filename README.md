@@ -2,6 +2,8 @@
 In this project using React, build the client-side for an application called myFlix based on its existing server-side code (REST API and database).
 It will be build using React and orginized using Parcel.
 
+Netlify link: https://compassionate-raman-293753.netlify.app/
+
 # Tools
 Dependencies:
 - Parcel
