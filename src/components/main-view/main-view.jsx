@@ -11,7 +11,7 @@ import { NavView } from '../nav-view/nav-view';
 import MoviesList from '../movies-list/movies-list';
 
 import { LoginView } from '../login-view/login-view';
-//import { MovieCard } from '../movie-card/movie-card';
+
 import { MovieView } from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
@@ -22,15 +22,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-//export export keyword removed from here 
+ 
 
 class MainView extends React.Component {
 
   constructor() {
     super();
-    // Initial state is set to null
+    
     this.state = {
-      //movies: [], movies state removed from here
+      
       user: null
     };
   }
@@ -38,9 +38,7 @@ class MainView extends React.Component {
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
-      //this.setState({
-      //  user: localStorage.getItem('user')
-     // });
+      
       this.getUsers(accessToken);
       this.getMovies(accessToken);
     }
@@ -51,11 +49,11 @@ class MainView extends React.Component {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
-        //this.setState({movies: response.data});
+        
         this.props.setMovies(response.data);
       })
       .catch(function (error) {
-        console.log(error);
+        console.error;
       });
   }
 
@@ -67,7 +65,7 @@ class MainView extends React.Component {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
-        // Assign the result to the state
+        
         this.setState({
           users: response.data
         });
@@ -129,7 +127,7 @@ class MainView extends React.Component {
              
             </Row>
         </Container>
-            //movies.map(m => (<Col md={3} key={m._id}><MovieCard movie={m} /></Col>))
+            
           }} />
           <Route path="/register" render={() => {
             if (user) return <Redirect to="/" />

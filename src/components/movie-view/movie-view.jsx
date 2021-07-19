@@ -14,7 +14,7 @@ export class MovieView extends React.Component {
 
     addFavorite(movie) {
         const token = localStorage.getItem("token");
-        const url = "https://calm-chamber-83197.herokuapp.com/users" + localStorage.getItem("user") + movie._id;
+        const url = "https://calm-chamber-83197.herokuapp.com/users/" + localStorage.getItem("user") + movie._id;
 
         axios.post(url, "", {
             headers: {Authorization: 'Bearer ${token}'},
@@ -75,7 +75,7 @@ export class MovieView extends React.Component {
 }
 
 MovieView.propTypes = {
-    movieData2: PropTypes.shape({
+    MovieView: PropTypes.shape({
       Title: PropTypes.string.isRequired,
       Description: PropTypes.string.isRequired,
       ImagePath: PropTypes.string.isRequired,

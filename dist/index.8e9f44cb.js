@@ -21886,7 +21886,6 @@ var _navView = require("../nav-view/nav-view");
 var _moviesList = require("../movies-list/movies-list");
 var _moviesListDefault = parcelHelpers.interopDefault(_moviesList);
 var _loginView = require("../login-view/login-view");
-//import { MovieCard } from '../movie-card/movie-card';
 var _movieView = require("../movie-view/movie-view");
 var _directorView = require("../director-view/director-view");
 var _genreView = require("../genre-view/genre-view");
@@ -21899,22 +21898,16 @@ var _row = require("react-bootstrap/Row");
 var _rowDefault = parcelHelpers.interopDefault(_row);
 var _col = require("react-bootstrap/Col");
 var _colDefault = parcelHelpers.interopDefault(_col);
-//export export keyword removed from here 
 class MainView extends _reactDefault.default.Component {
     constructor(){
         super();
-        // Initial state is set to null
         this.state = {
-            //movies: [], movies state removed from here
             user: null
         };
     }
     componentDidMount() {
         let accessToken = localStorage.getItem('token');
         if (accessToken !== null) {
-            //this.setState({
-            //  user: localStorage.getItem('user')
-            // });
             this.getUsers(accessToken);
             this.getMovies(accessToken);
         }
@@ -21925,10 +21918,9 @@ class MainView extends _reactDefault.default.Component {
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>{
-            //this.setState({movies: response.data});
             this.props.setMovies(response.data);
         }).catch(function(error) {
-            console.log(error);
+            console.error;
         });
     }
     /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/ getUsers(token) {
@@ -21938,7 +21930,6 @@ class MainView extends _reactDefault.default.Component {
                 Authorization: `Bearer ${token}`
             }
         }).then((response)=>{
-            // Assign the result to the state
             this.setState({
                 users: response.data
             });
@@ -21976,14 +21967,14 @@ class MainView extends _reactDefault.default.Component {
         return(/*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.BrowserRouter, {
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 113
+                lineNumber: 111
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_containerDefault.default, {
             className: "main-view justify-content-md-center",
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 114
+                lineNumber: 112
             },
             __self: this
         }, /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Route, {
@@ -22003,11 +21994,10 @@ class MainView extends _reactDefault.default.Component {
                 }))), /*#__PURE__*/ _reactDefault.default.createElement(_rowDefault.default, null, /*#__PURE__*/ _reactDefault.default.createElement(_moviesListDefault.default, {
                     movies: movies
                 }))));
-            //movies.map(m => (<Col md={3} key={m._id}><MovieCard movie={m} /></Col>))
             },
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 115
+                lineNumber: 113
             },
             __self: this
         }), /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Route, {
@@ -22020,7 +22010,7 @@ class MainView extends _reactDefault.default.Component {
             },
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 134
+                lineNumber: 132
             },
             __self: this
         }), /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Route, {
@@ -22042,7 +22032,7 @@ class MainView extends _reactDefault.default.Component {
             },
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 141
+                lineNumber: 139
             },
             __self: this
         }), /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Route, {
@@ -22065,7 +22055,7 @@ class MainView extends _reactDefault.default.Component {
             },
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 151
+                lineNumber: 149
             },
             __self: this
         }), /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Route, {
@@ -22093,7 +22083,7 @@ class MainView extends _reactDefault.default.Component {
             },
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 162
+                lineNumber: 160
             },
             __self: this
         }), /*#__PURE__*/ _reactDefault.default.createElement(_reactRouterDom.Route, {
@@ -22116,7 +22106,7 @@ class MainView extends _reactDefault.default.Component {
             },
             __source: {
                 fileName: "C:\\Users\\esras\\Documents\\careerfoundry\\myFlix-client\\src\\components\\main-view\\main-view.jsx",
-                lineNumber: 187
+                lineNumber: 185
             },
             __self: this
         }))));
@@ -29591,8 +29581,7 @@ MovieCard.propTypes = {
             Birth: _propTypesDefault.default.string.isRequired
         }),
         ImagePath: _propTypesDefault.default.string.isRequired,
-        Featured: _propTypesDefault.default.bool.isRequired,
-        Year: _propTypesDefault.default.string.isRequired
+        Featured: _propTypesDefault.default.bool.isRequired
     }).isRequired
 };
 
@@ -30093,7 +30082,7 @@ class MovieView extends _reactDefault.default.Component {
     }
     addFavorite(movie) {
         const token = localStorage.getItem("token");
-        const url = "https://calm-chamber-83197.herokuapp.com/users" + localStorage.getItem("user") + movie._id;
+        const url = "https://calm-chamber-83197.herokuapp.com/users/" + localStorage.getItem("user") + movie._id;
         _axiosDefault.default.post(url, "", {
             headers: {
                 Authorization: 'Bearer ${token}'
@@ -30267,7 +30256,7 @@ class MovieView extends _reactDefault.default.Component {
     }
 }
 MovieView.propTypes = {
-    movieData2: _propTypesDefault.default.shape({
+    MovieView: _propTypesDefault.default.shape({
         Title: _propTypesDefault.default.string.isRequired,
         Description: _propTypesDefault.default.string.isRequired,
         ImagePath: _propTypesDefault.default.string.isRequired,

@@ -9,6 +9,8 @@ Dependencies:
 - Parcel
 - React
 - ReactDOM
+- Bootstrap
+- Redux
 
 ## Design Criteria
 
