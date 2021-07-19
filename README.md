@@ -1,3 +1,6 @@
+![myflix](https://user-images.githubusercontent.com/82524635/126139307-165eb069-d79e-4ba2-8d1c-fdc0a05e5a23.jpg)
+
+
 # myFlix Client-Side: React app
 In this project using React, build the client-side for an application called myFlix based on its existing server-side code (REST API and database).
 It will be build using React and orginized using Parcel.
